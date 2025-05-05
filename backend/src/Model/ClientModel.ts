@@ -20,14 +20,14 @@ export const getClients = async() => {
 }
 
 
-export const updateById = async (client: TClient) => {
+export const updateById = async (id: number, client: TClient) => {
     const query = `UPDATE clientes SET nome = ?, nome_fantasia = ?, cep = ?, logradouro = ?, 
                    bairro = ?, cidade = ?, uf = ?, complemento = ?, email = ?, telefone = ?
                    WHERE id = ?` ;
     const [result] = await DbConnection.query(query, [client.nome, client.nome_fantasia,
                                               client.cep, client.logradouro, client.bairro,
                                               client.cidade, client.uf, client.complemento,
-                                              client.email, client.telefone, client.id]);
+                                              client.email, client.telefone, id]);
     return result;
 }
 
