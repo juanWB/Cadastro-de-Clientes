@@ -1,10 +1,21 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import type { TClient } from "../types/ClientType"
+import { api } from "../api/AxiosConfig";
 
 
 export const ClientList = () => {
     const [clients, setClients] = useState<TClient[] | null >(null);
-    
+
+    const fetchClients = async() => {
+        const response =  await api.get('/');
+
+        setClients(response.data.clients);
+    }
+
+    useEffect(() => {
+        fetchClients();
+    },)
+
 
     return (
         <div>
@@ -22,10 +33,18 @@ export const ClientList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Jorge</td>
-                        <td>Almeida</td>
-                    </tr>
+                    {(Array.isArray(clients) && clients.length > 0) ? (
+                      clients.map((client) => (
+                        <tr key={client.id}>
+                            <td>{client.cnpj}</td>
+                            <td>{client.nome}</td>
+                            <td>{client.nome_fantasia}</td>
+                            <td>{client.email}</td>
+                        </tr>
+                    )) 
+                  ) : (
+                        <p>Não há clientes cadastrados</p>
+                    )}
                 </tbody>
             </table>
         </div>
