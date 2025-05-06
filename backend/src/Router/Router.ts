@@ -1,8 +1,12 @@
 import { Router } from "express";
-import { CreateClient, GetClients } from "../Controller/ClientController";
-import { ErrorValidation } from "../Service/middlewares/ErrorValidation";
+import { CreateClient, DeleteClient, GetClients, UpdateClient } from "../Controller/ClientController";
 
 const route =  Router();
 
 route.get('/', GetClients);
-route.post('/', ErrorValidation, CreateClient)
+route.post('/', CreateClient);
+route.put('/:id', UpdateClient);
+route.delete('/:id', DeleteClient);
+
+
+export { route };
