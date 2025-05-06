@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const ClienSchema = z.object({
+export const ClientSchema = z.object({
     id: z.coerce.number().optional(),
     cnpj: z.string().length(14, "O campo CNPJ precisa ter 14 caracteres."),
     nome: z.string().min(3, "O campo Nome precisa ter no mínimo 3 caracteres."),
@@ -15,4 +15,4 @@ export const ClienSchema = z.object({
     telefone: z.string().max(15, "O campo Telefone precisa ter no máximo 15 caracteres."),
 })
 
-export type TClient = z.infer<typeof ClienSchema>;
+export type TClient = z.infer<typeof ClientSchema>;

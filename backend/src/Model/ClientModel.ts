@@ -2,6 +2,16 @@ import { DbConnection } from "../DbConfig/DbConfig";
 import { TClient } from "../Schema/ClientSchema";
 
 
+export const clientExist = async(cnpj: string) => {
+    const query = "SELECT * FROM clientes WHERE cnpj = ?";
+
+    const [result] = await DbConnection.execute(query, [cnpj]);
+    
+    return Array.isArray(result) && result.length > 0;
+    
+}
+
+
 export const createClient = async(client: TClient) => {
     const query = `INSERT INTO clientes (cnpj, nome, nome_fantasia, cep,
                    logradouro, bairro, cidade, uf, complemento, email, telefone)
