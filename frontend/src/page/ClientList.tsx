@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import type { TClient } from "../types/ClientType"
-import { api } from "../api/AxiosConfig";
+import { api } from "../service/api/AxiosConfig";
 
 
 export const ClientList = () => {
