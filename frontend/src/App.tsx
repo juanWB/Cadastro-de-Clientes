@@ -1,11 +1,12 @@
-//import { ClientList } from "./page/ClientList"
-import { ClientForm } from "./components/ClientForm/ClientForm"
+import { ClientList } from "./page/ClientList"
+import { ThemeProvider } from "@emotion/react";
+import theme from "./theme/theme";
 export const App = () => {
 
   return (
-    <>  
-      <ClientForm/>
-    </>
+    <ThemeProvider theme={theme}>  
+      <ClientList/>
+    </ThemeProvider>
   )
 }
 
