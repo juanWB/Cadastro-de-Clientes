@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { TClient } from "../../types/ClientType";
 import {formatCnpj, formatCep, formatTelefone} from "../../service/FormatFields";
+import { api } from "../../service/api/AxiosConfig";
 
 interface IClientFormProps{
     client?: TClient;
@@ -10,7 +11,6 @@ interface IClientFormProps{
 
 export const ClientForm = ({client, onClose}: IClientFormProps) => {
     const [formData, setFormData] = useState<TClient>({
-        id: 0,
         cnpj: '',
         nome: '',
         nome_fantasia: '',
@@ -39,6 +39,39 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
         setFormData((prevFormData) => ({...prevFormData, [name]: formattedValue }));
     };
 
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        client = formData;
+
+        try{
+            if(client.id  && client.id > 0) {
+                await api.put(`/${client.id}`, client);
+            } else {
+                await api.post('/', client);
+            }
+
+        setFormData({
+            cnpj: '',
+            nome: '',
+            nome_fantasia: '',
+            cep: '',
+            logradouro: '',
+            bairro: '',
+            cidade: '',
+            uf: '',
+            complemento: '',
+            email: '',
+            telefone: ''
+        })
+
+        if(onClose) onClose();
+
+        }catch(error){
+            console.error(error);
+        }
+    };  
+
 
     return(
         <div>
@@ -46,7 +79,7 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
                 <h1>Cadastro de clientes</h1>
                 <button type="button">X</button>
             </header>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <label>
                     <span>CNPJ: </span>
                     <input value={formData?.cnpj} name="cnpj" placeholder="xx.xxx.xxx/xxxx-xx" onChange={handleChange}/>
@@ -92,7 +125,7 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
                     <span>Telefone: </span>
                     <input value={formData.telefone} name="telefone" placeholder="(xx) xxxx-xxxx" onChange={handleChange}/>
                 </label>
-                <button type="button">Salvar</button>
+                <button type="submit">Salvar</button>
             </form>
         </div>
     )

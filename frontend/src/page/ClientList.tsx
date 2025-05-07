@@ -56,7 +56,7 @@ export const ClientList = () => {
                             <td>{client.email}</td>
                             <td>
                                 <button type="button">Visualizar</button>
-                                <button type="button" onClick={() => handleDelete(client.id)}>Excluir</button>
+                                <button type="button" onClick={() => handleDelete(client.id!)}>Excluir</button>
                             </td>
                         </tr>
                     )) 

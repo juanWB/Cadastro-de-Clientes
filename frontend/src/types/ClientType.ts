@@ -1,5 +1,5 @@
 export type TClient = {
-    id: number;
+    id?: number;
     cnpj: string;
     nome: string;
     nome_fantasia: string;

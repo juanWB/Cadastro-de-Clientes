@@ -43,8 +43,10 @@ export const GetClients = async(req: Request, res: Response) => {
 
 export const UpdateClient = async(req: Request, res: Response) => {
     try{
+
         const id = parseInt(req.params.id);
         const updatedClient = ClientSchema.parse(req.body);
+
         await updateById(id, updatedClient);
         res.status(StatusCodes.OK).json({
             message: 'Cliente atualizado com sucesso.'
