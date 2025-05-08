@@ -7,9 +7,10 @@ import { ToastContainer } from "react-toastify";
 export const App = () => {
 
   return (
-    <ThemeProvider theme={theme}>  
+    <ThemeProvider theme={theme}> 
+       <ClientList/> 
       <ToastContainer
-        position="top-right"
+        position="bottom-right"
         autoClose={3000}
         hideProgressBar={false}
         newestOnTop
@@ -20,7 +21,6 @@ export const App = () => {
         pauseOnHover
         theme="colored"
       />
-      <ClientList/>
     </ThemeProvider>
   )
 }

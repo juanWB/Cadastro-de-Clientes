@@ -18,6 +18,7 @@ import { api } from "../../service/api/AxiosConfig";
 import type { ApiErrorResponse } from "../../types/ErrorValidator";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import { SearchCep } from "../../service/api/SearchCep";
 
 interface IClientFormProps {
     client?: TClient;
@@ -55,7 +56,7 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
             });
     },[client]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = async(e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
         
         let formattedValue = value;
@@ -67,7 +68,20 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
             formattedValue = formatTelefone(value);
         }
 
+        if(name === 'cep' && formattedValue.length === 9){
+            const data = await SearchCep(formattedValue.replace("-", ""))
+            if (data && !data.erro) {
+                setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    logradouro: data.logradouro,
+                    bairro: data.bairro,
+                    cidade: data.localidade,
+                    uf: data.uf,
+                }));
+        }
+
         setFormData((prevFormData) => ({...prevFormData, [name]: formattedValue }));
+        }
     };
 
 
