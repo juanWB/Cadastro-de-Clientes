@@ -15,13 +15,22 @@ import SaveIcon from '@mui/icons-material/Save';
 import type { TClient } from "../../types/ClientType";
 import { formatCnpj, formatCep, formatTelefone } from "../../service/FormatFields";
 import { api } from "../../service/api/AxiosConfig";
+import type { ApiErrorResponse } from "../../types/ErrorValidator";
+import { AxiosError } from "axios";
+import { toast } from "react-toastify";
 
 interface IClientFormProps {
     client?: TClient;
     onClose?: () => void;
+
 };
 
+
+
 export const ClientForm = ({client, onClose}: IClientFormProps) => {
+    const [error, setErrors] = useState<Record<string, string>>({});
+    type CustomAxiosError = AxiosError<ApiErrorResponse>;
+
     const [formData, setFormData] = useState<TClient>({
         cnpj: '',
         nome: '',
@@ -68,8 +77,11 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
         try{
             if(formData.id && formData.id > 0){
                 await api.put(`/${formData.id}`, formData);
+                toast.success('Cliente atualizado com sucesso!');
             } else {
                 await api.post('/', formData);
+                toast.success('Cliente criado com sucesso!');
+
             }
 
 
@@ -87,12 +99,21 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
                 telefone: ''
             })
     
+            setErrors({});
 
         if(onClose) onClose();
 
 
         }catch(error){
-            console.error(error);
+            if (error instanceof AxiosError) {
+                const axiosError = error as CustomAxiosError;
+                
+                if (axiosError.response?.data?.validatedError) {
+                  setErrors(axiosError.response.data.validatedError);
+                }
+             }
+
+            toast.error('Erro ao salvar cliente. Verifique os dados e tente novamente.');
         }
     };  
     return (
@@ -151,6 +172,8 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
                             onChange={handleChange}
                             placeholder="XX.XXX.XXX/XXXX-XX"
                             variant="outlined"
+                            error={Boolean(error.cnpj)}
+                            helperText={error.cnpj}
                         />
                         <TextField
                             fullWidth
@@ -160,6 +183,8 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
                             onChange={handleChange}
                             placeholder="Nome"
                             variant="outlined"
+                            error={Boolean(error.nome)}
+                            helperText={error.nome}
                         />
                         <TextField
                             fullWidth
@@ -169,6 +194,8 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
                             onChange={handleChange}
                             placeholder="Nome fantasia"
                             variant="outlined"
+                            error={Boolean(error.nome_fantasia)}
+                            helperText={error.nome_fantasia}
                         />
                         <TextField
                             fullWidth
@@ -178,6 +205,8 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
                             onChange={handleChange}
                             placeholder="XXXXX-XXX"
                             variant="outlined"
+                            error={Boolean(error.cep)}
+                            helperText={error.cep}
                         />
                         <TextField
                             fullWidth
@@ -187,6 +216,8 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
                             onChange={handleChange}
                             placeholder="Rua/Avenida"
                             variant="outlined"
+                            error={Boolean(error.logradouro)}
+                            helperText={error.logradouro}
                         />
                         <TextField
                             fullWidth
@@ -196,6 +227,8 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
                             onChange={handleChange}
                             placeholder="Bairro"
                             variant="outlined"
+                            error={Boolean(error.bairro)}
+                            helperText={error.bairro}
                         />
                         <TextField
                             fullWidth
@@ -205,6 +238,8 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
                             onChange={handleChange}
                             placeholder="Cidade"
                             variant="outlined"
+                            error={Boolean(error.cidade)}
+                            helperText={error.cidade}
                         />
                         <TextField
                             fullWidth
@@ -214,6 +249,8 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
                             onChange={handleChange}
                             placeholder="Estado"
                             variant="outlined"
+                            error={Boolean(error.uf)}
+                            helperText={error.uf}
                         />
                         <TextField
                             fullWidth
@@ -223,6 +260,8 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
                             onChange={handleChange}
                             placeholder="Complemento"
                             variant="outlined"
+                            error={Boolean(error.complemento)}
+                            helperText={error.complemento}
                         />
                         <TextField
                             fullWidth
@@ -233,6 +272,8 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
                             onChange={handleChange}
                             placeholder="email@exemplo.com"
                             variant="outlined"
+                            error={Boolean(error.email)}
+                            helperText={error.email}
                         />
 
                         <TextField
@@ -243,6 +284,8 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
                             onChange={handleChange}
                             placeholder="(XX) XXXXX-XXXX"
                             variant="outlined"
+                            error={Boolean(error.telefone)}
+                            helperText={error.telefone}
                         />
                     </Box>
 

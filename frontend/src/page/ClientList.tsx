@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { toast } from "react-toastify";
 import type { TClient } from "../types/ClientType"
 import { api } from "../service/api/AxiosConfig";
 import { formatCnpj } from "../service/FormatFields";
@@ -20,7 +21,7 @@ import {
   import AddIcon from '@mui/icons-material/Add';
   import VisibilityIcon from '@mui/icons-material/Visibility';
   import DeleteIcon from '@mui/icons-material/Delete';
-
+  
 
 export const ClientList = () => {
     const [clients, setClients] = useState<TClient[] | null >(null);
@@ -37,6 +38,7 @@ export const ClientList = () => {
 
         }catch(error){
             console.error(error);
+            toast.error('Ocorreu um erro ao buscar os clientes.');
         }
     }
 
@@ -53,10 +55,11 @@ export const ClientList = () => {
     const handleDelete = async (id: number) => {
         try{
             await api.delete(`/${id}`);
-
+            toast.success('Cliente deletado com sucesso!');
             fetchClients();
         }catch(error){
             console.error(error);
+            toast.error('Ocorreu um erro ao deletar o cliente.');
         }
     }
 
@@ -72,6 +75,7 @@ export const ClientList = () => {
     const handleNewClient = () => {
         setIsFormOpen(true);
         setClientToEdit(null);
+        toast.info('Preencha os dados do novo cliente');
     };
 
     return (
