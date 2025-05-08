@@ -12,7 +12,8 @@ export const ClientSchema = z.object({
     uf: z.string().length(2, "O campo UF precisa 2 caracteres."),
     complemento: z.string().max(100, "O campo Complemento precisa ter no máximo 100 caracteres.").optional(),
     email: z.string().email("O campo Email precisa de um email válido."),
-    telefone: z.string().regex(/^\(\d{2}\) \d{4,5}-\d{4}$/, "Telefone inválido").transform(val => val.replace(/\D/g, '')).refine(val => val.length >= 10 && val.length <= 11, "Telefone deve ter 10 ou 11 dígitos"),
+    telefone: z.string().regex(/^\(\d{2}\)\s+\d{4,5}-\d{4}$/, "Formato de telefone inválido").transform(val => val.replace(/\D/g, '')).refine(val => val.length === 10 || val.length === 11, "Telefone deve ter 10 ou 11 dígitos"),
+
 })
 
 export type TClient = z.infer<typeof ClientSchema>;

@@ -21,7 +21,7 @@ interface IClientFormProps {
     onClose?: () => void;
 };
 
-export const ClientForm = ({ client, onClose }: IClientFormProps) => {
+export const ClientForm = ({client, onClose}: IClientFormProps) => {
     const [formData, setFormData] = useState<TClient>({
         cnpj: '',
         nome: '',
@@ -37,42 +37,64 @@ export const ClientForm = ({ client, onClose }: IClientFormProps) => {
     });
 
     useEffect(() => {
-        if (client) {
-            setFormData(client);
-        }
-    }, [client]);
+        if(client)
+            setFormData({
+                ...client,
+                cnpj: formatCnpj(client.cnpj),
+                cep: formatCep(client.cep),
+                telefone: formatTelefone(client.telefone)
+            });
+    },[client]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         
         let formattedValue = value;
-        if (name === 'cnpj') {
+        if(name === 'cnpj'){
             formattedValue = formatCnpj(value);
-        } else if (name === 'cep') {
+        } else if(name === 'cep'){
             formattedValue = formatCep(value);
-        } else if (name === 'telefone') {
+        } else if(name === 'telefone'){
             formattedValue = formatTelefone(value);
         }
 
-        setFormData(prev => ({ ...prev, [name]: formattedValue }));
+        setFormData((prevFormData) => ({...prevFormData, [name]: formattedValue }));
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        try {
-            if (formData.id && formData.id > 0) {
+        try{
+            if(formData.id && formData.id > 0){
                 await api.put(`/${formData.id}`, formData);
             } else {
                 await api.post('/', formData);
             }
 
-            if (onClose) onClose();
-        } catch (error) {
+
+            setFormData({
+                cnpj: '',
+                nome: '',
+                nome_fantasia: '',
+                cep: '',
+                logradouro: '',
+                bairro: '',
+                cidade: '',
+                uf: '',
+                complemento: '',
+                email: '',
+                telefone: ''
+            })
+    
+
+        if(onClose) onClose();
+
+
+        }catch(error){
             console.error(error);
         }
-    };
-
+    };  
     return (
         <Dialog
             open={true}

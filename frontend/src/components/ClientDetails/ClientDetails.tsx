@@ -13,15 +13,18 @@ import {
   import CloseIcon from '@mui/icons-material/Close';
   import EditIcon from '@mui/icons-material/Edit';
   import type { TClient } from "../../types/ClientType";
-import { formatCep, formatCnpj, formatTelefone } from '../../service/FormatFields';
-  
+  import { formatCep, formatCnpj, formatTelefone } from '../../service/FormatFields';  
+
   interface IClientDetailsProps {
       client: TClient,
       onClose?: () => void,
       onEdit?: () => void
+     
   }
-  
+
+ 
   export const ClientDetails = ({ client, onClose, onEdit }: IClientDetailsProps) => {
+    
       return (
           <Dialog
               open={true}

@@ -63,8 +63,11 @@ export const ClientList = () => {
     useEffect(() => {
         if(!isFormOpen){
             fetchClients();
+        } else {
+            setIsDetailsOpen(false);
         }
-    },[isFormOpen])
+    },[isFormOpen]);
+  
 
     const handleNewClient = () => {
         setIsFormOpen(true);
