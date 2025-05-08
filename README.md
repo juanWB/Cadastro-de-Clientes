@@ -69,3 +69,89 @@ CREATE TABLE clientes (
   email VARCHAR(255),
   telefone VARCHAR(20)
 );
+```
+
+---
+
+## 📜 Scripts Disponíveis
+
+### ▶️ Backend (`/backend`)
+```json
+"scripts": {
+  "dev": "ts-node-dev --respawn src/index.ts",
+  "build": "tsc",
+  "start": "node build/index.js"
+}
+```
+
+### ▶️ Frontend (`/frontend`)
+```json
+"scripts": {
+  "dev": "vite",
+  "build": "tsc -b && vite build",
+  "lint": "eslint .",
+  "preview": "vite preview"
+}
+```
+
+---
+
+## ⚙️ Como Executar o Projeto
+
+### 1. Clone o repositório
+```bash
+git clone https://github.com/seu-usuario/seu-repo.git
+```
+
+### 2. Configure o Backend
+```bash
+cd backend
+```
+
+- Crie um arquivo `.env` com as variáveis de conexão com o banco de dados:
+```env
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=sua_senha
+DB_NAME=seu_banco
+```
+
+- Instale as dependências:
+```bash
+npm install
+```
+
+- Inicie o servidor de desenvolvimento:
+```bash
+npm run dev
+```
+
+### 3. Configure o Frontend
+```bash
+cd ../frontend
+```
+
+- Instale as dependências:
+```bash
+npm install
+```
+
+- Inicie o frontend:
+```bash
+npm run dev
+```
+
+---
+
+## 📌 Observações
+
+- A API **ViaCEP** é utilizada apenas no **frontend**, para autocompletar os campos de endereço a partir do CEP informado.
+- Este projeto foi desenvolvido com foco em aprendizado prático e boas práticas em desenvolvimento web **fullstack**.
+- Certifique-se de que o **MySQL/WampServer** esteja ativo e configurado corretamente antes de rodar o backend.
+
+---
+
+## 👨‍💻 Autor
+
+Desenvolvido por **Juan Alejandro**  
+---
