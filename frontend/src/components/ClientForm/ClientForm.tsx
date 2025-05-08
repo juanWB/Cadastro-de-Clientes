@@ -78,10 +78,9 @@ export const ClientForm = ({client, onClose}: IClientFormProps) => {
                     cidade: data.localidade,
                     uf: data.uf,
                 }));
+            }
         }
-
         setFormData((prevFormData) => ({...prevFormData, [name]: formattedValue }));
-        }
     };
 
 
