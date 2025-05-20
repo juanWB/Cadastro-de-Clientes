@@ -1,7 +1,7 @@
 import { ClientList } from "./page/ClientList"
 import { ThemeProvider } from "@emotion/react";
 import theme from "./theme/theme";
-import 'react-toastify/dist/ReactToastify.css' // Adicione no TOPO do arquivo
+import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from "react-toastify";
 
 export const App = () => {

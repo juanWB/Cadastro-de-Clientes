@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     fs: {
-      strict: false // Permite acessar node_modules
+      strict: false
     }
   }
 })
